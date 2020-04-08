@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{$ load static %}
+
+{% block body %}
+<div class='text-right'>
+  <a href="{% url 'community:create' %}">새 글 작성</a>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">제목</th>
+        <th scope="col">영화 제목</th>
+        <th scope="col">평점</th>
+        <th scope="col">날짜</th>
+        <th scope="col">조회수</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for review in reviews %}
+      <tr>
+        <th scope="row">{{review.pk}} </th>
+        <td><a href="{% url 'community:detail' review.pk %}">{{review.title|truncatechars:30}}</a></td>
+        <td>{{review.movie_title}}</td>
+        <td>
+          {% with ''|center:review.rank as range %}
+              {% for i in range %}
+                  <span class="fa fa-star checked"></span>
+              {% endfor %}
+          {% endwith %}
+        </td>
+        <td>{{review.created_at|date:"Y.m.d"}} {{ review.created_at|time:"H:i" }}</td>
+        <td>{{review.hits}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="pagination justify-content-center py-3">
+  <span class="step-links">
+    {% if reviews.has_previous %}
+      <a href="?page={{ reviews.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}.
+    </span>
+
+    {% if reviews.has_next %}
+      <a href="?page={{ reviews.next_page_number }}">next</a>
+    {% endif %}
+  </span>
+</div>
+
+{% endblock %}

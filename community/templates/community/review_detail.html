@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+    <div class='detail-header'>
+        <p>{{ review.title }}</p>
+        <small>작성일: {{ review.created_at }}</small><br>
+        <small>수정일: {{ review.updated_at }}</small>
+        <hr>
+    </div>
+
+    <div class='detail-content'>
+        <p>{{ review.content|linebreaksbr }}</p>
+        <div class='pt-3'>
+            <p class=d-inline-block>평점: </p>
+            {% with ''|center:review.rank as range %}
+                {% for i in range %}
+                    <span class="fa fa-star checked"></span>
+                {% endfor %}
+            {% endwith %}
+        </div>
+        <hr>
+    </div>
+
+    <div class='detail-footer'>
+        <a href="{% url 'community:index' %}">목록으로</a>
+        <div>
+            <a href="{% url 'community:update' review.pk %}">수정</a>
+            <a href="{% url 'community:delete' review.pk %}">삭제</a>
+        </div>
+    </div>
+
+{% endblock %}

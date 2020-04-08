@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block body %}
+    <form action="" method='POST'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <div>
+                <input class="btn btn-sm btn-primary" type="submit" value="작성">
+                <a class="btn btn-sm btn-secondary" href="{% url 'community:index' %}" role="button">목록</a>
+            </div>
+        {% endbuttons %}
+    </form>
+{% endblock %}
